@@ -1,0 +1,858 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Sana Yazdım</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600&display=swap">
+<style>
+/* Düzen: telefon genişliğinde tek sütun. Açılışta "Dokun" ekranı, flaş, çatlayan ekran ve sonra "Bu ne güzellik aq". Sonra kısa mektup, iki soru kartı ve sallanan çiçek bahçesi. */
+:root {
+  --bg: #ffeef1;
+  --card: #ffffff;
+  --ink: #4a1730;
+  --muted: #8a5069;
+  --rose: #e0577a;
+  --rose-deep: #c43d63;
+  --blush: #f3a6b5;
+  --peach: #f6b998;
+  --core: #f7d774;
+  --leaf: #4f8f62;
+  --wine: #2a0f1d;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-hand: "Caveat", "Segoe Script", cursive;
+  color-scheme: light;
+}
+
+html { background: var(--bg); }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  padding-top: 2.25rem;
+  padding-bottom: 0;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sprites { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* Yükselen ve dokununca çıkan kalpler */
+.hearts {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.heart, .pop { position: absolute; width: var(--s, 20px); height: var(--s, 20px); }
+.heart svg, .pop svg { display: block; width: 100%; height: 100%; fill: currentColor; }
+.heart {
+  bottom: -40px;
+  opacity: 0;
+  animation: rise 12s linear infinite;
+}
+@keyframes rise {
+  0% { transform: translate3d(0, 0, 0) rotate(-8deg); opacity: 0; }
+  12% { opacity: 0.55; }
+  88% { opacity: 0.55; }
+  100% { transform: translate3d(var(--sway, 24px), -108vh, 0) rotate(8deg); opacity: 0; }
+}
+.pop { animation: pop 1.1s ease-out forwards; z-index: 70; }
+@keyframes pop {
+  from { transform: translate(-50%, -50%) scale(0.4); opacity: 1; }
+  to { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.15); opacity: 0; }
+}
+
+/* Açılış: dokun ekranı, flaş, çatlak, yazı */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: var(--wine);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.intro .start, .intro .title { grid-area: 1 / 1; }
+.intro .start {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  max-width: 20rem;
+  text-align: center;
+}
+.intro .start svg { width: 4rem; height: 4rem; fill: var(--rose); animation: beat 1.6s ease-in-out infinite; }
+.intro .start .lead {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.9rem, 8vw, 2.6rem);
+  line-height: 1.15;
+  text-wrap: balance;
+  color: #ffe3ea;
+}
+.intro .tap {
+  margin-top: 0.5rem;
+  font: inherit;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  line-height: 1.2;
+  min-height: 3.25rem;
+  padding: 0.75rem 2.5rem;
+  border-radius: 999px;
+  border: 0;
+  background: var(--rose-deep);
+  color: #ffffff;
+  cursor: pointer;
+}
+.intro .tap:focus-visible { outline: 3px solid #ffe3ea; outline-offset: 3px; }
+.intro .note { margin: 0; font-size: 0.9375rem; color: #d9b8c4; }
+.intro .title {
+  max-width: 20rem;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2.5rem, 12vw, 4.25rem);
+  line-height: 1.08;
+  text-wrap: balance;
+  color: #ffe3ea;
+  text-shadow: 0 0 24px rgba(224, 87, 122, 0.7);
+  opacity: 0;
+}
+.impact {
+  position: fixed;
+  inset: 0;
+  z-index: 62;
+  background: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Dokununca başlayan sıra: flaş (0s), çatlama (1.2s), yazı (2s), sönme (3.9s) */
+.go .intro {
+  cursor: default;
+  animation:
+    introBg 1.1s ease-out forwards,
+    introShake 0.45s linear 1.2s,
+    introOut 0.7s ease 3.9s forwards,
+    introGone 0s linear 4.6s forwards;
+}
+.go .intro .start { animation: startOut 0.15s ease forwards; }
+.go .intro .title { animation: introText 0.6s ease-out 2s forwards; }
+.go .impact { animation: impact 0.35s ease-out 1.2s forwards; }
+
+@keyframes introBg {
+  0%, 15% { background-color: #ffffff; }
+  100% { background-color: var(--wine); }
+}
+@keyframes startOut { to { opacity: 0; visibility: hidden; } }
+@keyframes introText {
+  from { opacity: 0; transform: translateY(10px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes impact {
+  0% { opacity: 0; }
+  20% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+@keyframes introShake {
+  0% { transform: translate(0, 0); }
+  15% { transform: translate(-6px, 3px); }
+  30% { transform: translate(5px, -4px); }
+  45% { transform: translate(-4px, -2px); }
+  60% { transform: translate(3px, 3px); }
+  80% { transform: translate(-2px, 1px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes introOut { to { opacity: 0; } }
+@keyframes introGone { to { visibility: hidden; } }
+
+/* Cam çatlama efekti */
+#crack-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  pointer-events: none;
+  opacity: 0;
+  overflow: hidden;
+}
+#crack-svg { width: 100%; height: 100%; }
+#crack-lines path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+}
+#crack-overlay.active {
+  animation: crackAppear 2.8s ease forwards, introShake 0.45s linear;
+}
+#crack-overlay.active #crack-lines path {
+  animation: draw 0.5s ease-out forwards;
+  animation-delay: calc(var(--i) * 40ms);
+}
+@keyframes crackAppear {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* Sayfa */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.to {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.5rem;
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 1.1;
+  color: var(--rose-deep);
+}
+.to svg { width: 1.4rem; height: 1.4rem; fill: var(--rose); animation: beat 1.6s ease-in-out infinite; }
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  14% { transform: scale(1.22); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.14); }
+  56% { transform: scale(1); }
+}
+
+h1 {
+  margin: 0 0 1.5rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2rem, 9.2vw, 2.9rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  font-variation-settings: "opsz" 144;
+}
+
+.lines { list-style: none; margin: 0 0 1.25rem; padding: 0; display: grid; gap: 0.75rem; }
+.lines li { display: flex; gap: 0.75rem; align-items: flex-start; }
+.lines svg { flex: none; width: 1rem; height: 1rem; margin-top: 0.45rem; fill: var(--rose); }
+
+.then {
+  margin: 0 0 1.5rem;
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 2.25rem;
+  line-height: 1.1;
+  color: var(--rose-deep);
+}
+
+.asks { display: grid; gap: 1rem; }
+.ask {
+  padding: 1.5rem 1.25rem 1.25rem;
+  background: var(--card);
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px rgba(196, 61, 99, 0.16);
+}
+.ask h2 {
+  margin: 0 0 1.25rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.45rem, 6.2vw, 1.9rem);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.choices { display: grid; gap: 0.75rem; }
+.btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  line-height: 1.2;
+  min-height: 3.25rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 2px solid var(--rose-deep);
+  touch-action: manipulation;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+/* Birinci soru: seçenekler */
+.btn.choice { background: transparent; color: var(--rose-deep); }
+.btn.choice:hover:not(:disabled) { background: #fde0e6; }
+.btn.choice.picked { background: var(--rose-deep); color: #ffffff; }
+.btn.choice:disabled { cursor: default; }
+.btn.choice:disabled:not(.picked) { opacity: 0.45; }
+
+/* İkinci soru: "Hayır" dedikçe Evet büyür, Hayır küçülür */
+.btn.yes {
+  --lvl: 0;
+  background: var(--rose-deep);
+  color: #ffffff;
+  font-size: calc(1.0625rem + var(--lvl) * 0.3rem);
+  min-height: calc(3.25rem + var(--lvl) * 1.1rem);
+}
+.btn.yes:hover { background: #a92f52; }
+.btn.maybe {
+  --lvl: 0;
+  background: transparent;
+  color: var(--rose-deep);
+  font-size: max(0.75rem, calc(1.0625rem - var(--lvl) * 0.05rem));
+  min-height: max(1.75rem, calc(3.25rem - var(--lvl) * 0.22rem));
+  padding-block: 0.2rem;
+}
+.btn.maybe:hover { background: #fde0e6; }
+.btn.yes.full {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  border-radius: 0;
+  border: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(2.75rem, 14vw, 5.5rem);
+  padding: env(safe-area-inset-top, 0px) max(16px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(16px, env(safe-area-inset-left, 0px));
+}
+.later {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  z-index: 41;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  min-height: 2.75rem;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 0;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.9375rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.later:focus-visible { outline: 3px solid #ffffff; outline-offset: 2px; }
+
+.answer { margin: 1.25rem 0 0; }
+.answer .big {
+  display: block;
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 1.15;
+  color: var(--rose-deep);
+}
+.answer .small { display: block; margin-top: 0.25rem; color: var(--muted); font-size: 1rem; }
+
+.copybox { margin-top: 1rem; display: grid; gap: 0.75rem; }
+.copybox .msg {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background: #fff4f6;
+  border-radius: 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-user-select: text;
+  user-select: text;
+}
+.btn.copy { background: var(--rose-deep); color: #ffffff; }
+.btn.copy:hover { background: #a92f52; }
+
+.sign {
+  margin: 1.5rem 0 0;
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--muted);
+}
+
+/* Çiçek bahçesi */
+.garden {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  max-width: 30rem;
+  height: auto;
+  margin: 1.5rem auto 0;
+}
+.sway { transform-box: fill-box; transform-origin: 50% 100%; animation: sway 5s ease-in-out infinite alternate; }
+.sway.s2 { animation-duration: 6.5s; animation-delay: -2s; }
+.sway.s3 { animation-duration: 5.6s; animation-delay: -4s; }
+.sway.s4 { animation-duration: 7s; animation-delay: -1s; }
+.sway.s5 { animation-duration: 6s; animation-delay: -3s; }
+@keyframes sway {
+  from { transform: rotate(-3deg); }
+  to { transform: rotate(3deg); }
+}
+.stem { fill: none; stroke: var(--leaf); stroke-width: 3; stroke-linecap: round; }
+.leaf { fill: var(--leaf); }
+
+@media (prefers-reduced-motion: reduce) {
+  .intro, .impact, #crack-overlay { display: none; }
+  .sway, .to svg, .heart { animation: none; }
+  .btn { transition: none; }
+}
+</style>
+<noscript><style>.intro, .impact { display: none; }</style></noscript>
+
+<svg class="sprites" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="heart" viewBox="0 0 24 24">
+      <path d="M12 21s-7.5-4.6-9.6-9.2C.8 8.3 2.9 4.5 6.6 4.5c2 0 3.7 1.1 5.4 3.1 1.7-2 3.4-3.1 5.4-3.1 3.7 0 5.8 3.8 4.2 7.3C19.5 16.4 12 21 12 21z"/>
+    </symbol>
+    <symbol id="flower" viewBox="0 0 100 100">
+      <g fill="var(--petal, #e0577a)">
+        <ellipse cx="50" cy="27" rx="12" ry="22"/>
+        <ellipse cx="50" cy="27" rx="12" ry="22" transform="rotate(60 50 50)"/>
+        <ellipse cx="50" cy="27" rx="12" ry="22" transform="rotate(120 50 50)"/>
+        <ellipse cx="50" cy="27" rx="12" ry="22" transform="rotate(180 50 50)"/>
+        <ellipse cx="50" cy="27" rx="12" ry="22" transform="rotate(240 50 50)"/>
+        <ellipse cx="50" cy="27" rx="12" ry="22" transform="rotate(300 50 50)"/>
+      </g>
+      <circle cx="50" cy="50" r="12" fill="var(--core, #f7d774)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="hearts" id="hearts" aria-hidden="true"></div>
+
+<main class="page">
+  <p class="to"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#heart"></use></svg><span id="to">Sana</span></p>
+  <h1>Telefonum titreyince umarım sensindir diyorum.</h1>
+
+  <ul class="lines">
+    <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#heart"></use></svg><span>Aramızda başka bir şehir var ama aklım hep sende.</span></li>
+    <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#heart"></use></svg><span>Gülüşünü düşünüp sokakta tek başıma gülümsüyorum.</span></li>
+    <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#heart"></use></svg><span>Büyük laflar yok, seni tanımak istiyorum.</span></li>
+  </ul>
+
+  <p class="then">Sonra şey…</p>
+
+  <div class="asks">
+    <section class="ask" aria-labelledby="soru1">
+      <h2 id="soru1">Beni ne olarak görüyorsun?</h2>
+      <div class="choices" id="choices1">
+        <button type="button" class="btn choice" data-k="arkadas">Arkadaş</button>
+        <button type="button" class="btn choice" data-k="fazla">Arkadaştan fazlası</button>
+        <button type="button" class="btn choice" data-k="bilmem">Henüz bilmiyorum</button>
+      </div>
+      <p class="answer" id="a1" role="status" aria-live="polite" hidden></p>
+    </section>
+
+    <section class="ask" id="q2" aria-labelledby="soru2" hidden>
+      <h2 id="soru2">Beni seviyor musun?</h2>
+      <div class="choices">
+        <button type="button" class="btn yes" id="yes">Evet</button>
+        <button type="button" class="btn maybe" id="no">Hayır</button>
+      </div>
+      <p class="answer" id="answer" role="status" aria-live="polite" hidden></p>
+      <div class="copybox" id="copybox" hidden>
+        <p class="msg" id="copytext"></p>
+        <button type="button" class="btn copy" id="copy">Mesajı kopyala</button>
+      </div>
+    </section>
+  </div>
+
+  <button type="button" class="later" id="later" hidden>Şimdi cevap vermek istemiyorum</button>
+
+  <p class="sign" id="sign">Seni çok merak eden biri</p>
+</main>
+
+<svg class="garden" viewBox="0 0 400 170" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
+  <g class="sway s1">
+    <path class="stem" d="M40 170 Q35 135 40 98"/>
+    <path class="leaf" d="M39 142 q-18 -2 -23 -17 q18 -1 23 17z"/>
+    <use href="#flower" x="12" y="70" width="56" height="56" style="--petal:#f3a6b5"/>
+  </g>
+  <g class="sway s2">
+    <path class="stem" d="M120 170 Q112 125 120 80"/>
+    <path class="leaf" d="M119 138 q20 -4 27 -20 q-20 -1 -27 20z"/>
+    <use href="#flower" x="80" y="40" width="80" height="80" style="--petal:#e0577a"/>
+  </g>
+  <g class="sway s3">
+    <path class="stem" d="M205 170 Q199 135 205 94"/>
+    <path class="leaf" d="M204 144 q-19 -3 -25 -19 q19 -1 25 19z"/>
+    <use href="#flower" x="173" y="62" width="64" height="64" style="--petal:#f6b998"/>
+  </g>
+  <g class="sway s4">
+    <path class="stem" d="M290 170 Q282 125 290 76"/>
+    <path class="leaf" d="M289 140 q20 -4 27 -20 q-20 -1 -27 20z"/>
+    <use href="#flower" x="248" y="34" width="84" height="84" style="--petal:#c43d63"/>
+  </g>
+  <g class="sway s5">
+    <path class="stem" d="M365 170 Q360 138 365 101"/>
+    <path class="leaf" d="M364 146 q-18 -2 -23 -17 q18 -1 23 17z"/>
+    <use href="#flower" x="336" y="72" width="58" height="58" style="--petal:#f3a6b5"/>
+  </g>
+</svg>
+
+<!-- Açılış -->
+<div class="intro" id="intro" role="button" tabindex="0" aria-label="Başlat">
+  <div class="start">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#heart"></use></svg>
+    <p class="lead">Sana bir şey hazırladım</p>
+    <button type="button" class="tap" id="tap">Aç</button>
+    <p class="note">Telefonunun sesi açık olsun</p>
+  </div>
+  <p class="title" aria-hidden="true">Bu ne güzellik aq</p>
+</div>
+<div class="impact" id="impact" aria-hidden="true"></div>
+
+<div id="crack-overlay" aria-hidden="true">
+  <svg id="crack-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+    <g id="crack-lines"></g>
+  </svg>
+</div>
+
+<script>
+  // Buradan isimleri değiştirebilirsin. Boş bırakırsan varsayılan metin görünür.
+  var ISIM = "";   // Onun adı, örneğin "Elif"
+  var IMZA = "";   // Senin adın, örneğin "Mert"
+
+  if (ISIM) document.getElementById("to").textContent = ISIM;
+  if (IMZA) document.getElementById("sign").textContent = IMZA;
+
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var layer = document.getElementById("hearts");
+  var colors = ["#e0577a", "#f3a6b5", "#c43d63", "#f08fa4", "#f6b998"];
+  var heartHtml = '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#heart"></use></svg>';
+
+  function rand(a, b) { return a + Math.random() * (b - a); }
+  function pick() { return colors[Math.floor(Math.random() * colors.length)]; }
+
+  function ambient(count) {
+    for (var i = 0; i < count; i++) {
+      var h = document.createElement("span");
+      h.className = "heart";
+      h.style.left = rand(2, 94) + "%";
+      h.style.setProperty("--s", rand(14, 30) + "px");
+      h.style.setProperty("--sway", rand(-40, 40) + "px");
+      h.style.color = pick();
+      h.style.animationDuration = rand(10, 19) + "s";
+      h.style.animationDelay = (-rand(0, 19)) + "s";
+      h.innerHTML = heartHtml;
+      layer.appendChild(h);
+    }
+  }
+
+  function burst(x, y, count, spread) {
+    for (var i = 0; i < count; i++) {
+      var p = document.createElement("span");
+      p.className = "pop";
+      p.style.left = x + "px";
+      p.style.top = y + "px";
+      p.style.setProperty("--s", rand(14, 28) + "px");
+      p.style.setProperty("--dx", rand(-spread, spread) + "px");
+      p.style.setProperty("--dy", rand(-spread * 1.6, -spread * 0.3) + "px");
+      p.style.color = pick();
+      p.innerHTML = heartHtml;
+      p.addEventListener("animationend", function (e) { e.target.remove(); });
+      layer.appendChild(p);
+    }
+  }
+
+  /* ---------- Cam çatlama efekti ---------- */
+  var overlay = document.getElementById("crack-overlay");
+  var crackLines = document.getElementById("crack-lines");
+
+  var paths = [
+    "500,500 420,420 350,390 280,300 200,260",
+    "500,500 570,420 650,350 740,320 850,200",
+    "500,500 580,540 680,600 760,700 900,760",
+    "500,500 420,570 350,650 280,740 150,850",
+    "500,500 450,400 460,300 400,200 390,100",
+    "500,500 550,600 540,700 600,800 620,950",
+    "500,500 600,470 700,450 800,480 950,450",
+    "500,500 400,530 300,500 200,550 50,600"
+  ];
+
+  function createCracks() {
+    crackLines.innerHTML = "";
+    paths.forEach(function (points, index) {
+      var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      var d = points.split(" ").map(function (point, i) {
+        var xy = point.split(",");
+        return (i === 0 ? "M " : "L ") + xy[0] + " " + xy[1];
+      }).join(" ");
+      path.setAttribute("d", d);
+      path.setAttribute("pathLength", "1");
+      path.style.setProperty("--i", index);
+      crackLines.appendChild(path);
+    });
+  }
+
+  function startCrack() {
+    createCracks();
+    overlay.classList.add("active");
+    setTimeout(function () {
+      overlay.classList.remove("active");
+      crackLines.innerHTML = "";
+    }, 3000);
+  }
+
+  /* ---------- Cam çatlama sesi (kodla üretilir, dosya gerekmez) ---------- */
+  var audioCtx = null;
+
+  function prepareAudio() {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    try {
+      audioCtx = audioCtx || new AC();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+    } catch (err) { audioCtx = null; }
+    return audioCtx;
+  }
+
+  function crackSound(delay) {
+    var ctx = audioCtx;
+    if (!ctx) return;
+    var t0 = ctx.currentTime + delay;
+
+    var comp = ctx.createDynamicsCompressor();
+    var master = ctx.createGain();
+    master.gain.value = 0.8;
+    master.connect(comp);
+    comp.connect(ctx.destination);
+
+    function noise(start, dur, freq, gain) {
+      var len = Math.floor(ctx.sampleRate * dur);
+      var buf = ctx.createBuffer(1, len, ctx.sampleRate);
+      var data = buf.getChannelData(0);
+      for (var i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
+      var src = ctx.createBufferSource();
+      src.buffer = buf;
+      var hp = ctx.createBiquadFilter();
+      hp.type = "highpass";
+      hp.frequency.value = freq;
+      var g = ctx.createGain();
+      g.gain.value = gain;
+      src.connect(hp); hp.connect(g); g.connect(master);
+      src.start(t0 + start);
+    }
+
+    function tone(freq, start, peak, dur) {
+      var o = ctx.createOscillator();
+      o.type = "sine";
+      o.frequency.value = freq;
+      var g = ctx.createGain();
+      var s = t0 + start;
+      g.gain.setValueAtTime(0.0001, s);
+      g.gain.exponentialRampToValueAtTime(peak, s + 0.005);
+      g.gain.exponentialRampToValueAtTime(0.0001, s + dur);
+      o.connect(g); g.connect(master);
+      o.start(s); o.stop(s + dur + 0.05);
+    }
+
+    // ilk çarpma: alçak tok ses ve keskin çıtırtı
+    tone(95, 0, 0.5, 0.18);
+    noise(0, 0.25, 2500, 0.9);
+    // devam eden çatırtılar
+    noise(0.07, 0.18, 4000, 0.5);
+    noise(0.16, 0.12, 5000, 0.35);
+    noise(0.3, 0.1, 6000, 0.25);
+    noise(0.46, 0.08, 6500, 0.18);
+    // cam tınısı
+    tone(3100, 0, 0.18, 0.5);
+    tone(4300, 0.05, 0.14, 0.45);
+    tone(5200, 0.1, 0.12, 0.4);
+    tone(6600, 0.15, 0.1, 0.35);
+  }
+
+  /* ---------- Açılış sırası ---------- */
+  var introEnded = false;
+  var started = false;
+  var intro = document.getElementById("intro");
+
+  function endIntro() {
+    if (introEnded) return;
+    introEnded = true;
+    if (intro) intro.remove();
+    var m = document.getElementById("impact");
+    if (m) m.remove();
+    if (!reduce) burst(window.innerWidth / 2, window.innerHeight * 0.45, 18, 140);
+  }
+
+  function startIntro() {
+    if (started) return;
+    started = true;
+    document.documentElement.classList.add("go");
+    prepareAudio();
+    crackSound(1.2);
+    setTimeout(startCrack, 1200);
+    setTimeout(endIntro, 4600);
+  }
+
+  if (reduce) {
+    endIntro();
+  } else {
+    ambient(12);
+    document.addEventListener("pointerdown", function (e) {
+      if (!introEnded) return;
+      burst(e.clientX, e.clientY, 5, 90);
+    });
+    intro.addEventListener("click", startIntro);
+    intro.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); startIntro(); }
+    });
+  }
+
+  /* ---------- Birinci soru: Beni ne olarak görüyorsun? ---------- */
+  var q1Data = {
+    arkadas: { text: "Arkadaş", reply: "Güzel bir başlangıç.", msg: "seni arkadaş olarak görüyorum" },
+    fazla: { text: "Arkadaştan fazlası", reply: "Bunu duymak güzel.", msg: "seni arkadaştan fazlası olarak görüyorum" },
+    bilmem: { text: "Henüz bilmiyorum", reply: "Dürüst cevap. Bunu seviyorum.", msg: "seni ne olarak gördüğümü henüz bilmiyorum" }
+  };
+  var choiceBtns = document.querySelectorAll("#choices1 .choice");
+  var a1 = document.getElementById("a1");
+  var q2 = document.getElementById("q2");
+  var picked = "";
+
+  function fillAnswer(el, big, small) {
+    el.innerHTML = "";
+    var b = document.createElement("span"); b.className = "big"; b.textContent = big;
+    var s = document.createElement("span"); s.className = "small"; s.textContent = small;
+    el.appendChild(b);
+    if (small) el.appendChild(s);
+    el.hidden = false;
+  }
+
+  Array.prototype.forEach.call(choiceBtns, function (btn) {
+    btn.addEventListener("click", function () {
+      var key = btn.getAttribute("data-k");
+      var d = q1Data[key];
+      if (!d || picked) return;
+      picked = key;
+      Array.prototype.forEach.call(choiceBtns, function (b) { b.disabled = true; });
+      btn.classList.add("picked");
+      fillAnswer(a1, d.reply, "");
+      if (!reduce) {
+        var r = btn.getBoundingClientRect();
+        burst(r.left + r.width / 2, r.top + r.height / 2, 8, 90);
+      }
+      q2.hidden = false;
+      setTimeout(function () {
+        q2.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
+      }, 150);
+    });
+  });
+
+  /* ---------- İkinci soru: Beni seviyor musun? (Hayır dedikçe Evet büyür) ---------- */
+  var yes = document.getElementById("yes");
+  var no = document.getElementById("no");
+  var later = document.getElementById("later");
+  var answer = document.getElementById("answer");
+  var copybox = document.getElementById("copybox");
+  var copytext = document.getElementById("copytext");
+  var copyBtn = document.getElementById("copy");
+  var lvl = 0;
+  var MAX = 8;
+  var noMsgs = ["Hayır", "Emin misin?", "Bak, bir daha düşün", "Gerçekten mi?", "Lütfen…", "Kalbim kırılıyor", "Son kez soruyorum", "Bu buton artık çalışmıyor"];
+
+  function resetYesNo() {
+    lvl = 0;
+    yes.style.setProperty("--lvl", 0);
+    no.style.setProperty("--lvl", 0);
+    yes.classList.remove("full");
+    yes.textContent = "Evet";
+    no.textContent = noMsgs[0];
+    later.hidden = true;
+  }
+
+  no.addEventListener("click", function () {
+    lvl++;
+    yes.style.setProperty("--lvl", lvl);
+    no.style.setProperty("--lvl", lvl);
+    if (lvl >= MAX) {
+      no.hidden = true;
+      yes.textContent = "Evet de artık";
+      yes.classList.add("full");
+      later.hidden = false;
+    } else {
+      no.textContent = noMsgs[lvl];
+    }
+  });
+
+  later.addEventListener("click", function () {
+    resetYesNo();
+    no.hidden = false;
+    fillAnswer(answer, "Tamam, acele yok.", "Ben beklerim.");
+    answer.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
+  });
+
+  yes.addEventListener("click", function (e) {
+    var wasFull = yes.classList.contains("full");
+    resetYesNo();
+    no.hidden = true;
+    yes.disabled = true;
+    fillAnswer(answer, "Harika.", "Aşağıdaki mesajı kopyalayıp bana da yapıştırabilirsin.");
+    var a = picked && q1Data[picked] ? q1Data[picked].msg : "seni ne olarak gördüğümü henüz bilmiyorum";
+    copytext.textContent = "Cevaplarım: " + a + ". Ve evet, seviyorum.";
+    copybox.hidden = false;
+    if (!reduce) {
+      var x = wasFull ? window.innerWidth / 2 : e.clientX;
+      var y = wasFull ? window.innerHeight / 2 : e.clientY;
+      burst(x, y, 26, 160);
+    }
+    answer.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
+  });
+
+  function copyText(text, done) {
+    function fallback() {
+      var ok = false;
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        ok = document.execCommand("copy");
+        ta.remove();
+      } catch (err) { ok = false; }
+      done(ok);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  copyBtn.addEventListener("click", function () {
+    copyText(copytext.textContent, function (ok) {
+      copyBtn.textContent = ok ? "Kopyalandı" : "Kopyalanamadı, mesajı basılı tutup seç";
+    });
+  });
+</script>
+
+</body></html>
